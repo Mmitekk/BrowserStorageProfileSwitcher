@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Storage Profile Switcher</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-top">
+        <div class="title">Storage Profile Switcher <span class="version-tag" id="versionTag">v1.2.4</span></div>
+        <button id="reloadExtBtn" class="reload-ext-btn" title="Перезагрузить расширение (обновить Service Worker)">↺</button>
+      </div>
+      <div class="domain" id="domain">—</div>
+    </header>
+
+    <div class="current" id="current">Активный профиль: —</div>
+    <div class="live-user" id="liveUser">На странице: <span class="dim">—</span></div>
+
+    <ul class="profiles" id="profiles"></ul>
+
+    <div class="empty" id="empty">Профилей пока нет. Залогинься на сайте и создай первый профиль — он сохранит текущую сессию.</div>
+
+    <div class="creator">
+      <input id="name" type="text" placeholder="Имя профиля" autocomplete="off" />
+      <button id="create" type="button">Создать</button>
+    </div>
+
+    <div class="hint">
+      Создание профиля сохраняет текущую сессию (localStorage + cookies + IndexedDB).<br />
+      Переключение: живая сессия сохраняется в активный профиль, затем применяется выбранный.
+    </div>
+
+    <div class="status" id="status"></div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
