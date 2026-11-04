@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Browser Storage Profile Switcher",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Многопрофильный менеджер сессий: мгновенное переключение между аккаунтами на любых сайтах. Сохраняет и восстанавливает localStorage, sessionStorage, cookies и IndexedDB (Firebase Auth).",
   "permissions": ["storage", "unlimitedStorage", "tabs", "scripting", "cookies"],
   "host_permissions": ["http://*/*", "https://*/*"],

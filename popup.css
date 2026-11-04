@@ -199,3 +199,33 @@ header {
   color: var(--accent2);
 }
 .status.error { color: var(--accent); }
+
+.backup-bar {
+  display: flex;
+  gap: 8px;
+  padding: 8px 14px 10px;
+  border-top: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.btn-backup {
+  flex: 1;
+  padding: 6px 8px;
+  font-size: 11px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+
+.btn-backup:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--accent2);
+  color: #fff;
+}

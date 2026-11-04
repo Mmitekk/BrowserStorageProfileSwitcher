@@ -38,6 +38,7 @@
 * 🍪 **Cookies** (с правильным сопоставлением доменов и защищённых флагов)
 * 💾 **LocalStorage** и **SessionStorage** (включая сложные JSON-объекты)
 * 🗄️ **IndexedDB** (включая базы `firebaseLocalStorageDb` и другие локальные хранилища)
+* 💾 **Резервное копирование (Экспорт / Импорт):** скачивание всех ваших профилей в один файл `.json` и безопасное восстановление с умным объединением (Merge).
 * ⚡ **Защита от Race Condition:** мгновенная заморозка фонового поллинга (GraphQL, WebSockets) и хуков размонтирования при переключении исключает сброс сессий и случайный разлогин.
 * 🛡️ **Защита от затирания сессий (Cross-Account Guard):** невозможно случайно перезаписать активный профиль пустой страницей или сессией другого аккаунта.
 
@@ -99,6 +100,7 @@ Most profile/account switchers only handle `cookies`. However, modern web apps a
 * 🍪 **Cookies** (properly handling domains, paths, and secure flags)
 * 💾 **LocalStorage & SessionStorage** (including complex JSON structures)
 * 🗄️ **IndexedDB** (including `firebaseLocalStorageDb` and SPA offline stores)
+* 💾 **Backup & Restore (Export / Import):** one-click `.json` export and smart merge import that never overwrites fresh sessions.
 * ⚡ **Race Condition Immunity:** freezes active background polling (GraphQL, WebSockets) and unmount hooks during switching to eliminate unexpected logouts.
 * 🛡️ **Cross-Account Clobber Guard:** prevents accidentally overwriting an active profile with an unauthorized or mismatched session.
 

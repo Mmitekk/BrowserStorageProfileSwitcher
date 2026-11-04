@@ -9,7 +9,7 @@
   <body>
     <header>
       <div class="header-top">
-        <div class="title">Storage Profile Switcher <span class="version-tag" id="versionTag">v1.2.4</span></div>
+        <div class="title">Storage Profile Switcher <span class="version-tag" id="versionTag">v1.2.5</span></div>
         <button id="reloadExtBtn" class="reload-ext-btn" title="Перезагрузить расширение (обновить Service Worker)">↺</button>
       </div>
       <div class="domain" id="domain">—</div>
@@ -33,6 +33,12 @@
     </div>
 
     <div class="status" id="status"></div>
+
+    <div class="backup-bar">
+      <button id="exportBtn" class="btn-backup" type="button" title="Скачать резервную копию всех профилей в файл .json">📥 Экспорт бэкапа</button>
+      <button id="importBtn" class="btn-backup" type="button" title="Восстановить профили из файла .json (безопасное объединение)">📤 Импорт бэкапа</button>
+      <input type="file" id="importFileInput" accept=".json" style="display: none;" />
+    </div>
 
     <script src="popup.js"></script>
   </body>

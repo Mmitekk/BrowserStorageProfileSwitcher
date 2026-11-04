@@ -240,4 +240,65 @@ els.name.addEventListener("keydown", (event) => {
   if (event.key === "Enter") createProfile();
 });
 
+const exportBtn = document.getElementById("exportBtn");
+const importBtn = document.getElementById("importBtn");
+const importFileInput = document.getElementById("importFileInput");
+
+if (exportBtn) {
+  exportBtn.addEventListener("click", async () => {
+    setStatus("Экспорт бэкапа…");
+    try {
+      const res = await send("exportProfiles");
+      if (res && res.ok && res.data) {
+        const jsonStr = JSON.stringify(res.data, null, 2);
+        const blob = new Blob([jsonStr], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        const dateStr = new Date().toISOString().slice(0, 10);
+        a.href = url;
+        a.download = `sps-profiles-backup-${dateStr}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        setStatus("✓ Бэкап сохранён в файл!");
+      } else {
+        setStatus("Ошибка экспорта", true);
+      }
+    } catch (e) {
+      setStatus("Ошибка: " + e.message, true);
+    }
+  });
+}
+
+if (importBtn && importFileInput) {
+  importBtn.addEventListener("click", () => {
+    importFileInput.value = "";
+    importFileInput.click();
+  });
+
+  importFileInput.addEventListener("change", () => {
+    const file = importFileInput.files && importFileInput.files[0];
+    if (!file) return;
+    setStatus("Чтение бэкапа…");
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      try {
+        const parsed = JSON.parse(e.target.result);
+        const res = await send("importProfiles", { data: parsed });
+        if (res && res.ok) {
+          setStatus(`✓ Импорт: +${res.addedCount} нов., ${res.updatedCount} обн.`);
+          await refresh();
+        } else {
+          setStatus((res && res.error) || "Ошибка импорта", true);
+        }
+      } catch {
+        setStatus("Файл не является валидным JSON", true);
+      }
+    };
+    reader.onerror = () => setStatus("Не удалось прочитать файл", true);
+    reader.readAsText(file);
+  });
+}
+
 init();

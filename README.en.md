@@ -32,6 +32,7 @@ Most profile/account switchers only handle `cookies`. However, modern web apps a
 * 🍪 **Cookies** (properly handling domains, paths, and secure flags)
 * 💾 **LocalStorage & SessionStorage** (including complex JSON structures)
 * 🗄️ **IndexedDB** (including `firebaseLocalStorageDb` and SPA offline stores)
+* 💾 **Backup & Restore (Export / Import):** one-click `.json` export and smart merge import that never overwrites fresh sessions.
 * ⚡ **Race Condition Immunity:** freezes active background polling (GraphQL, WebSockets) and unmount hooks during switching to eliminate unexpected logouts.
 * 🛡️ **Cross-Account Clobber Guard:** prevents accidentally overwriting an active profile with an unauthorized or mismatched session.
 

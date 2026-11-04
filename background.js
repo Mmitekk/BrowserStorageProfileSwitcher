@@ -1162,6 +1162,65 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       case "sync":
         sendResponse(await syncProfile(tabId, url, message.name));
         break;
+      case "exportProfiles": {
+        const all = await getAll();
+        sendResponse({ ok: true, data: all, timestamp: Date.now() });
+        break;
+      }
+      case "importProfiles": {
+        try {
+          const incoming = message.data;
+          if (!incoming || typeof incoming !== "object") {
+            sendResponse({ ok: false, error: "Некорректный формат файла бэкапа" });
+            break;
+          }
+          const all = await getAll();
+          let addedCount = 0;
+          let updatedCount = 0;
+
+          for (const [domain, domainData] of Object.entries(incoming)) {
+            if (!domain || !domainData || typeof domainData !== "object") continue;
+            if (!all[domain]) {
+              all[domain] = { current: domainData.current || null, data: {} };
+            }
+            const currentDomainProfs = all[domain].data || {};
+            const incomingProfs = domainData.data || {};
+
+            for (const [pName, pData] of Object.entries(incomingProfs)) {
+              if (!pName || !pData || typeof pData !== "object") continue;
+              sanitizeProfile(pData);
+
+              if (!currentDomainProfs[pName]) {
+                currentDomainProfs[pName] = pData;
+                addedCount++;
+              } else {
+                const localSaved = currentDomainProfs[pName].savedAt || 0;
+                const incomingSaved = pData.savedAt || 0;
+                const localHasAuth = hasSessionData(currentDomainProfs[pName]);
+                const incomingHasAuth = hasSessionData(pData);
+
+                if (!localHasAuth && incomingHasAuth) {
+                  currentDomainProfs[pName] = pData;
+                  updatedCount++;
+                } else if (incomingSaved > localSaved) {
+                  currentDomainProfs[pName] = pData;
+                  updatedCount++;
+                }
+              }
+            }
+            all[domain].data = currentDomainProfs;
+            if (!all[domain].current && domainData.current) {
+              all[domain].current = domainData.current;
+            }
+          }
+
+          await saveAll(all);
+          sendResponse({ ok: true, addedCount, updatedCount });
+        } catch (e) {
+          sendResponse({ ok: false, error: e.message || "Ошибка при импорте бэкапа" });
+        }
+        break;
+      }
       case "getVersion":
         sendResponse({ ok: true, version: chrome.runtime.getManifest().version });
         break;
